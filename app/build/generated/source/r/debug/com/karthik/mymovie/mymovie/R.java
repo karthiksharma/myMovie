@@ -2197,8 +2197,7 @@ containing a value of this type.
         public static final int abc_textfield_search_material=0x7f020044;
         public static final int design_fab_background=0x7f020045;
         public static final int design_snackbar_background=0x7f020046;
-        public static final int donut=0x7f020047;
-        public static final int notification_template_icon_bg=0x7f020048;
+        public static final int notification_template_icon_bg=0x7f020047;
     }
     public static final class id {
         public static final int action0=0x7f0c0074;
@@ -2425,7 +2424,8 @@ containing a value of this type.
         public static final int app_name=0x7f060015;
         public static final int appbar_scrolling_view_behavior=0x7f060016;
         public static final int character_counter_pattern=0x7f060017;
-        public static final int hello_blank_fragment=0x7f060018;
+        public static final int discover_movie=0x7f060018;
+        public static final int hello_blank_fragment=0x7f060019;
         public static final int status_bar_notification_info_overflow=0x7f060013;
     }
     public static final class style {

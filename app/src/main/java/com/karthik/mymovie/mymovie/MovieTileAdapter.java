@@ -1,7 +1,6 @@
 package com.karthik.mymovie.mymovie;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,7 +29,7 @@ public class MovieTileAdapter extends ArrayAdapter<MovieTile>{
         MovieTile movieTile = getItem(position);
         ImageView imageView = (ImageView) convertView;
         if(imageView == null){
-            imageView = new ImageView(mContext);
+            imageView = new ImageView(getContext());
             imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
@@ -38,11 +37,9 @@ public class MovieTileAdapter extends ArrayAdapter<MovieTile>{
         else{
             imageView = (ImageView)convertView;
         }
-        imageView.setImageResource(R.drawable.donut);
-
-        Log.v(LOG_TAG, "Movie url is " + movieTile.url);
-
-        Picasso.with(getContext()).load(movieTile.url).into(imageView);
+        String url = "http://image.tmdb.org/t/p/w185/"+movieTile.getPosterPath();
+//        Log.v(LOG_TAG, "Image url is " + url);
+        Picasso.with(getContext()).load(url).into(imageView);
 
         return imageView;
     }
