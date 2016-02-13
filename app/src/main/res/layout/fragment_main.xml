@@ -1,0 +1,11 @@
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discover_movie_grid_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:numColumns="auto_fit"
+    android:stretchMode="columnWidth"
+    android:gravity="center"
+    tools:context="com.karthik.mymovie.mymovie.MainActivityFragment"
+    tools:showIn="@layout/activity_main"/>
+

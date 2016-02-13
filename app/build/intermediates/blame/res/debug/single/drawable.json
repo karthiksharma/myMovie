@@ -16,6 +16,10 @@
         "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
     },
     {
+        "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\donut.png",
+        "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\src\\main\\res\\drawable\\donut.png"
+    },
+    {
         "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_light.xml",
         "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_item_background_holo_light.xml"
     },
