@@ -2,9 +2,11 @@ package com.karthik.mymovie.mymovie;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,9 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        discoverMovieApi("popularity.desc");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortBy = pref.getString(getString(R.string.sort_criteria_key), getString(R.string.default_sort_criteria));
+        discoverMovieApi(sortBy);
     }
 
     private void discoverMovieApi(String sortBy){

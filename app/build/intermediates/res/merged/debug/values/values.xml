@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <array name="pref_sort_keys">
+        <item>Popularity</item>
+        <item>Rating</item>
+    </array>
+    <array name="pref_sort_values">
+        <item>popularity.desc</item>
+        <item>vote_average.desc</item>
+    </array>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -275,10 +283,14 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="default_movie_id">Loading...</string>
+    <string name="default_sort_criteria">popularity.desc</string>
     <string name="discover_movie">Discover Latest Movie</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sort_criteria_key">Popularity</string>
+    <string name="sort_criteria_title">Sort By</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_activity_detail">Movie Details</string>
+    <string name="title_activity_settings">Settings</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

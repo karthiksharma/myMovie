@@ -16,12 +16,12 @@
         "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxhdpi\\abc_btn_check_to_on_mtrl_015.png"
     },
     {
-        "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png",
-        "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxhdpi\\abc_ic_menu_copy_mtrl_am_alpha.png"
-    },
-    {
         "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png",
         "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxhdpi\\abc_ic_menu_paste_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png",
+        "source": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxhdpi\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
         "merged": "H:\\Udacity\\AndroidNanoWS\\MyMovie\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_scrubber_control_off_mtrl_alpha.png",

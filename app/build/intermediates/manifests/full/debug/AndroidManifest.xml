@@ -35,6 +35,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karthik.mymovie.mymovie.MainActivity" />
         </activity>
+        <activity
+            android:name="com.karthik.mymovie.mymovie.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.karthik.mymovie.mymovie.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.karthik.mymovie.mymovie.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
