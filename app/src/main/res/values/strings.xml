@@ -5,4 +5,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="discover_movie">Discover Latest Movie</string>
+    <string name="title_activity_detail">Movie Details</string>
+    <string name="default_movie_id">Loading...</string>
 </resources>
