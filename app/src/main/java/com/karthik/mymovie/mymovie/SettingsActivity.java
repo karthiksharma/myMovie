@@ -32,6 +32,7 @@ public class SettingsActivity extends PreferenceActivity
         // updated when the preference changes.
         // Add preferences
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sort_criteria_key)));
+
     }
 
     /**

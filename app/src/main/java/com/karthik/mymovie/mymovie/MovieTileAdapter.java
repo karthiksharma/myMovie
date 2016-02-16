@@ -1,6 +1,7 @@
 package com.karthik.mymovie.mymovie;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -37,15 +38,18 @@ public class MovieTileAdapter extends ArrayAdapter<MovieTile>{
         else{
             imageView = (ImageView)convertView;
         }
-        /*final String BASE_URL = "http://image.tmdb.org/t/p/";
-        final String IMAGE_RESOLUTION = "w185";
+
+        final String BASE_URL = getContext().getString(R.string.MOVIE_IMAGE_BASE_URL);
+        final String IMAGE_RESOLUTION = getContext().getString(R.string.IMAGE_DEFAULT_RESOLUTION);
+
         Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(IMAGE_RESOLUTION)
-                .appendPath(movieTile.getPosterPath())
-                .build();*/
-        String url = "http://image.tmdb.org/t/p/w185/"+movieTile.getPosterPath();
-//        Log.v(LOG_TAG, "Image url is " + url);
-        Picasso.with(getContext()).load(url).into(imageView);
+                .appendEncodedPath(movieTile.getPosterPath())
+                .build();
+
+//        Log.v(LOG_TAG, "Image url is " + uri.toString());
+
+        Picasso.with(getContext()).load(uri).fit().into(imageView);
         return imageView;
     }
 }

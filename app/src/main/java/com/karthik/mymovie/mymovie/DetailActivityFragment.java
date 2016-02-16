@@ -64,12 +64,12 @@ public class DetailActivityFragment extends Fragment {
             String movieDetailJson = null;
             MovieTile currentMovie = null;
             try{
-                final String MOVIE_API_BASE_URL = "http://api.themoviedb.org/3/movie/";
+                final String MOVIE_API_BASE_URL = getString(R.string.MOVIE_DETAIL_API_BASE_URL);
                 final String API_KEY = "api_key";
 
                 Uri baseUri = Uri.parse(MOVIE_API_BASE_URL).buildUpon()
                         .appendPath(params[0])
-                        .appendQueryParameter(API_KEY, "b4f2c25145dbe8726f15084197348819")
+                        .appendQueryParameter(API_KEY, BuildConfig.MOVIE_API_KEY)
                         .build();
                 URL url = new URL(baseUri.toString());
 

@@ -11,5 +11,9 @@
     <string name="sort_criteria_title">Sort By</string>
     <string name="sort_criteria_key">Popularity</string>
     <string name="default_sort_criteria">popularity.desc</string>
+    <string name="MOVIE_DISCOVER_API_BASE_URL">http://api.themoviedb.org/3/discover/movie</string>
+    <string name="MOVIE_DETAIL_API_BASE_URL">http://api.themoviedb.org/3/movie/</string>
+    <string name="MOVIE_IMAGE_BASE_URL">http://image.tmdb.org/t/p/</string>
+    <string name="IMAGE_DEFAULT_RESOLUTION">w185</string>
 
 </resources>

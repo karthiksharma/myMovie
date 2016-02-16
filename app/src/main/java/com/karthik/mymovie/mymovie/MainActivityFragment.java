@@ -77,14 +77,16 @@ public class MainActivityFragment extends Fragment {
             String discoverMovieJson = null;
             MovieTile[] movieList = null;
             try{
-                final String MOVIE_API_BASE_URL = "http://api.themoviedb.org/3/discover/movie";
+                final String MOVIE_API_BASE_URL = getString(R.string.MOVIE_DISCOVER_API_BASE_URL);//"http://api.themoviedb.org/3/discover/movie";
                 final String SORT_BY = "sort_by";
                 final String API_KEY = "api_key";
 
+
                 Uri baseUri = Uri.parse(MOVIE_API_BASE_URL).buildUpon()
                         .appendQueryParameter(SORT_BY, params[0])
-                        .appendQueryParameter(API_KEY, "b4f2c25145dbe8726f15084197348819")
+                        .appendQueryParameter(API_KEY, BuildConfig.MOVIE_API_KEY )
                         .build();
+
                 URL url = new URL(baseUri.toString());
 
                 urlConnection = (HttpURLConnection) url.openConnection();
