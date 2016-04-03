@@ -30,14 +30,24 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     private MovieTileAdapter mMovieAdapter;
+    private ArrayList<MovieTile> mMovieList;
 
     public MainActivityFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("movieList", mMovieList);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            mMovieList = savedInstanceState.getParcelableArrayList("movieList");
+        }
     }
 
     @Override
@@ -71,16 +81,16 @@ public class MainActivityFragment extends Fragment {
         });
         return gridView;
     }
-    class FetchMovieDetail extends AsyncTask<String, Void, MovieTile[]>{
+    class FetchMovieDetail extends AsyncTask<String, Void, ArrayList<MovieTile>>{
 
         private final String LOG_TAG = FetchMovieDetail.class.getSimpleName();
 
         @Override
-        protected MovieTile[] doInBackground(String... params) {
+        protected ArrayList<MovieTile> doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String discoverMovieJson = null;
-            MovieTile[] movieList = null;
+            ArrayList<MovieTile> movieList = null;
             try{
                 final String MOVIE_API_BASE_URL = getString(R.string.MOVIE_DISCOVER_API_BASE_URL);//"http://api.themoviedb.org/3/discover/movie";
                 final String SORT_BY = "sort_by";
@@ -142,23 +152,24 @@ public class MainActivityFragment extends Fragment {
             return movieList;
         }
 
-        private MovieTile[] parseDiscoverMovieJson(String discoverMovieJson) throws JSONException{
+        private ArrayList<MovieTile> parseDiscoverMovieJson(String discoverMovieJson) throws JSONException{
             JSONObject forecastJson = new JSONObject(discoverMovieJson);
             JSONArray jsonArr = forecastJson.getJSONArray("results");
-            MovieTile[] movieList = new MovieTile[jsonArr.length()];
+            ArrayList<MovieTile> movieList = new ArrayList<MovieTile>(jsonArr.length());
             for(int i =0 ; i <jsonArr.length(); i++){
                 JSONObject movieEle = jsonArr.getJSONObject(i);
-                movieList[i] = new MovieTile(movieEle.getString("id"),movieEle.getString("poster_path"));
-                movieList[i].setMovieName(movieEle.getString("original_title"));
+                movieList.add(new MovieTile(movieEle.getString("id"),movieEle.getString("poster_path")));
+                movieList.get(i).setMovieName(movieEle.getString("original_title"));
 //                Log.v(LOG_TAG, movieList[i].toString());
             }
             return movieList;
         }
 
         @Override
-        protected void onPostExecute(MovieTile[] movies) {
+        protected void onPostExecute(ArrayList<MovieTile> movies) {
             mMovieAdapter.clear();
             mMovieAdapter.addAll(movies);
+            mMovieList = movies;
         }
     }
 

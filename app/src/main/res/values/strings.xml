@@ -15,5 +15,7 @@
     <string name="MOVIE_DETAIL_API_BASE_URL">http://api.themoviedb.org/3/movie/</string>
     <string name="MOVIE_IMAGE_BASE_URL">http://image.tmdb.org/t/p/</string>
     <string name="IMAGE_DEFAULT_RESOLUTION">w185</string>
+    <string name="add_to_favourites">Movie Added to Favourite</string>
+    <string name="already_favorite">Movie already in Favorite</string>
 
 </resources>

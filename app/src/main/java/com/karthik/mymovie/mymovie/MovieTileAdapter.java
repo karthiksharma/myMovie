@@ -49,7 +49,12 @@ public class MovieTileAdapter extends ArrayAdapter<MovieTile>{
 
 //        Log.v(LOG_TAG, "Image url is " + uri.toString());
 
-        Picasso.with(getContext()).load(uri).fit().into(imageView);
+        Picasso.with(getContext())
+                .load(uri)
+                .placeholder(R.drawable.donut)
+                .error(R.drawable.donut)
+                .fit()
+                .into(imageView);
         return imageView;
     }
 }
