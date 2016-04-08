@@ -10,12 +10,17 @@
     <string name="default_movie_id">Loading...</string>
     <string name="sort_criteria_title">Sort By</string>
     <string name="sort_criteria_key">Popularity</string>
-    <string name="default_sort_criteria">popularity.desc</string>
-    <string name="MOVIE_DISCOVER_API_BASE_URL">http://api.themoviedb.org/3/discover/movie</string>
+    <!--<string name="default_sort_criteria">popularity.desc</string>-->
+    <string name="default_sort_criteria">popular</string>
+    <string name="offline_sort_criteria">favorite</string>
+    <!--<string name="MOVIE_DISCOVER_API_BASE_URL">http://api.themoviedb.org/3/discover/movie</string>-->
+    <string name="MOVIE_DISCOVER_API_BASE_URL">http://api.themoviedb.org/3/movie</string>
     <string name="MOVIE_DETAIL_API_BASE_URL">http://api.themoviedb.org/3/movie/</string>
     <string name="MOVIE_IMAGE_BASE_URL">http://image.tmdb.org/t/p/</string>
     <string name="IMAGE_DEFAULT_RESOLUTION">w185</string>
     <string name="add_to_favourites">Movie Added to Favourite</string>
     <string name="already_favorite">Movie already in Favorite</string>
+    <string name="text_trailer_list">Trailer List</string>
+    <string name="text_review_list">Movie Reviews</string>
 
 </resources>

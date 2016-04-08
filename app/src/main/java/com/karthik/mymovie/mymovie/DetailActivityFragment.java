@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.karthik.mymovie.mymovie.data.DatabaseHelper;
 import com.karthik.mymovie.mymovie.data.MovieProvider;
@@ -97,6 +98,8 @@ public class DetailActivityFragment extends Fragment {
 
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
             movieId = intent.getStringExtra(Intent.EXTRA_TEXT);
+            mMovie = new MovieTile();
+            mMovie.setMovieId(movieId);
             fetchMovieDetailsFromApi(movieId);
         }
         return rootView;
@@ -253,7 +256,34 @@ public class DetailActivityFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(final MovieTile movieTile) {
+        protected void onPostExecute(MovieTile movieTile) {
+            if(movieTile == null){
+                Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
+                if(mMovie.getMovieId() == null){
+                    return;
+                }
+                Cursor cursor = getContext().getContentResolver().query(MovieProvider.CONTENT_URI,
+                        null,
+                        DatabaseHelper.MOVIE_ID+" =?",
+                        new String[]{mMovie.getMovieId()},
+                        null);
+                try {
+                    if(cursor.moveToFirst()){
+                        movieTile = new MovieTile(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_ID)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.POSTER_PATH)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_NAME)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_DESC)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_RATING)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.RELEASE_DATE)));
+                    }
+                    else{
+                        return;
+                    }
+                }
+                finally {
+                    cursor.close();
+                }
+            }
             final String movieId = movieTile.getMovieId();
 
             final ContentValues values = new ContentValues();
@@ -266,7 +296,11 @@ public class DetailActivityFragment extends Fragment {
 
             ImageView posterImageView = (ImageView) rootView.findViewById(R.id.movie_detail_poster);
             String url = "http://image.tmdb.org/t/p/w185/"+movieTile.getPosterPath();
-            Picasso.with(getContext()).load(url).into(posterImageView);
+            Picasso.with(getContext())
+                    .load(url)
+                    .placeholder(R.drawable.donut)
+                    .error(R.drawable.donut)
+                    .into(posterImageView);
 
             TextView textView = (TextView)rootView.findViewById(R.id.movie_title);
 
@@ -293,8 +327,7 @@ public class DetailActivityFragment extends Fragment {
                             null);
                     try {
                         if (cursor.moveToFirst()) {
-                            Snackbar.make(view, getResources().getString(R.string.already_favorite), Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            Toast.makeText(getContext(), "Movie already marked Favorite", Toast.LENGTH_SHORT).show();
                         } else {
                             getContext().getContentResolver().insert(MovieProvider.CONTENT_URI, values);
                             Snackbar.make(view, getResources().getString(R.string.add_to_favourites), Snackbar.LENGTH_LONG)
@@ -308,10 +341,14 @@ public class DetailActivityFragment extends Fragment {
             mMovie = movieTile;
 
             mReviewAdapter.clear();
-            mReviewAdapter.addAll(movieTile.getReviewList());
+            if(movieTile.getReviewList() != null) {
+                mReviewAdapter.addAll(movieTile.getReviewList());
+            }
 
             mTrailerAdapter.clear();
-            mTrailerAdapter.addAll(movieTile.getTrailerList());
+            if(movieTile.getTrailerList() != null) {
+                mTrailerAdapter.addAll(movieTile.getTrailerList());
+            }
         }
 
     }

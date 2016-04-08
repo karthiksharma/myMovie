@@ -3,6 +3,7 @@ package com.karthik.mymovie.mymovie;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import com.karthik.mymovie.mymovie.data.DatabaseHelper;
+import com.karthik.mymovie.mymovie.data.MovieProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,14 +55,6 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortBy = pref.getString(getString(R.string.sort_criteria_key), getString(R.string.default_sort_criteria));
-        discoverMovieApi(sortBy);
-    }
-
     private void discoverMovieApi(String sortBy){
         new FetchMovieDetail().execute(sortBy);
     }
@@ -74,13 +71,63 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 MovieTile movieItem = mMovieAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), DetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, movieItem.getMovieId());
-                startActivity(intent);
+                if(MainActivity.isTwoPane()){
+                    getFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, new DetailActivityFragment(), movieItem.getMovieId())
+                    .commit();
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+                            .putExtra(Intent.EXTRA_TEXT, movieItem.getMovieId());
+                    startActivity(intent);
+                }
             }
         });
         return gridView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortBy = pref.getString(getString(R.string.sort_criteria_key), getString(R.string.default_sort_criteria));
+
+        if(sortBy != null && sortBy.equalsIgnoreCase(getString(R.string.offline_sort_criteria))){
+            displayFavorite(sortBy);
+        }else {
+            discoverMovieApi(sortBy);
+        }
+    }
+
+    private void displayFavorite(String sortBy){
+        ArrayList<MovieTile> movieList  = new ArrayList<>();
+        Cursor cursor = getContext().getContentResolver().query(MovieProvider.CONTENT_URI, null, null, null,null);
+        try {
+            if (cursor.moveToFirst()){
+                do {
+                    MovieTile movieTile = new MovieTile(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_ID)),
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.POSTER_PATH)),
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_NAME)),
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_DESC)),
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.MOVIE_RATING)),
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.RELEASE_DATE)));
+                    movieList.add(movieTile);
+                }while (cursor.moveToNext());
+                mMovieList = movieList;
+                mMovieAdapter.clear();
+                mMovieAdapter.addAll(movieList);
+            }else {
+                mMovieList = new ArrayList<>();
+                mMovieAdapter.clear();
+                Toast.makeText(getContext(), "No Favorite Movies", Toast.LENGTH_SHORT).show();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+    }
+
     class FetchMovieDetail extends AsyncTask<String, Void, ArrayList<MovieTile>>{
 
         private final String LOG_TAG = FetchMovieDetail.class.getSimpleName();
@@ -92,17 +139,21 @@ public class MainActivityFragment extends Fragment {
             String discoverMovieJson = null;
             ArrayList<MovieTile> movieList = null;
             try{
-                final String MOVIE_API_BASE_URL = getString(R.string.MOVIE_DISCOVER_API_BASE_URL);//"http://api.themoviedb.org/3/discover/movie";
-                final String SORT_BY = "sort_by";
+                //"http://api.themoviedb.org/3/movie/";
+                final String MOVIE_API_BASE_URL = getString(R.string.MOVIE_DISCOVER_API_BASE_URL);
+//                final String SORT_BY = "sort_by";
                 final String API_KEY = "api_key";
 
 
                 Uri baseUri = Uri.parse(MOVIE_API_BASE_URL).buildUpon()
-                        .appendQueryParameter(SORT_BY, params[0])
+//                        .appendQueryParameter(SORT_BY, params[0])
+                        .appendPath(params[0])
                         .appendQueryParameter(API_KEY, BuildConfig.MOVIE_API_KEY )
                         .build();
 
                 URL url = new URL(baseUri.toString());
+
+                /*Log.v("MAF : ", url.toString());*/
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -167,9 +218,13 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<MovieTile> movies) {
-            mMovieAdapter.clear();
-            mMovieAdapter.addAll(movies);
-            mMovieList = movies;
+            if(movies != null) {
+                mMovieList = movies;
+                mMovieAdapter.clear();
+                mMovieAdapter.addAll(movies);
+            }else{
+                Toast.makeText(getContext(), "Check Internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
