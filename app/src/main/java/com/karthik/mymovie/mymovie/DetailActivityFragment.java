@@ -71,9 +71,19 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final String movieId;
+        String movieId = "";
 
+        Bundle inpArg = getArguments();
+        if(inpArg != null){
+            movieId = inpArg.getString("Selected Movie");
+        }
+         /*
         Intent intent = getActivity().getIntent();
+        if(intent == null || !intent.hasExtra(Intent.EXTRA_TEXT)){
+            rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+            Log.v("DAF","Intent is null");
+            return rootView;
+        }*/
         rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mTrailerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, new ArrayList<String>());
@@ -86,8 +96,8 @@ public class DetailActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String key = (String) trailerListView.getItemAtPosition(position);
-                if(key != null){
-                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.youtube.com/watch?v="+key));
+                if (key != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key));
                     startActivity(intent);
                 }
             }
@@ -95,14 +105,14 @@ public class DetailActivityFragment extends Fragment {
 
         ListView reviewListView = (ListView) rootView.findViewById(R.id.review_list);
         reviewListView.setAdapter(mReviewAdapter);
-
+/*
         if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-            movieId = intent.getStringExtra(Intent.EXTRA_TEXT);
+            movieId = intent.getStringExtra(Intent.EXTRA_TEXT);*/
             mMovie = new MovieTile();
             mMovie.setMovieId(movieId);
             fetchMovieDetailsFromApi(movieId);
-        }
-        return rootView;
+  /*      }
+  */      return rootView;
     }
 
     class FetchMovieDetail extends AsyncTask<String, Void, MovieTile>{
@@ -315,7 +325,9 @@ public class DetailActivityFragment extends Fragment {
             textView = (TextView)rootView.findViewById(R.id.movie_overview);
             textView.setText("Movie Plot overview : " + movieTile.getMovieDesc());
 
-            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+//            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
             fab.show();
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override

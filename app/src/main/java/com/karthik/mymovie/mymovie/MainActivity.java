@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.Callback{
 
     private static boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
@@ -29,18 +28,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
         if(findViewById(R.id.movie_detail_container) == null){
-            Log.v("MAFF", "TWO PANE = false");
+//            Log.v("MAFF", "TWO PANE = false");
             mTwoPane = false;
         }
         else {
-            Log.v("MAFF", "TWO PANE = true");
+//            Log.v("MAFF", "TWO PANE = true");
             mTwoPane = true;
             if (savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.movie_detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
                         .commit();
-                Log.v("MAFF", "Fragment added");
-            }
+//                Log.v("MAFF", "Fragment added");
+            }/*
+            else{
+//                Log.v("MAFF", "In else block");
+            }*/
         }
     }
 
@@ -79,5 +81,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void setTwoPane(boolean mTwoPane) {
         this.mTwoPane = mTwoPane;
+    }
+
+    @Override
+    public void onItemSelected(MovieTile movieItem) {
+        if(mTwoPane){
+            Bundle arg = new Bundle();
+            arg.putString("Selected Movie", movieItem.getMovieId());
+
+            DetailActivityFragment fragment = new DetailActivityFragment();
+            fragment.setArguments(arg);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container,fragment, DETAILFRAGMENT_TAG)
+                    .commit();
+        }
+        else{
+            Intent intent = new Intent(this, DetailActivity.class)
+                    .putExtra(Intent.EXTRA_TEXT, movieItem.getMovieId());
+            startActivity(intent);
+        }
     }
 }

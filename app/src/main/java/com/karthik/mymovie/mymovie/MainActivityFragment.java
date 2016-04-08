@@ -1,7 +1,6 @@
 package com.karthik.mymovie.mymovie;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -40,6 +39,18 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
         // Required empty public constructor
     }
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         * @param movieItem
+         */
+        public void onItemSelected(MovieTile movieItem);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -71,7 +82,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 MovieTile movieItem = mMovieAdapter.getItem(position);
-                if(MainActivity.isTwoPane()){
+                /*if(MainActivity.isTwoPane()){
                     getFragmentManager().beginTransaction()
                     .replace(R.id.movie_detail_container, new DetailActivityFragment(), movieItem.getMovieId())
                     .commit();
@@ -81,7 +92,8 @@ public class MainActivityFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailActivity.class)
                             .putExtra(Intent.EXTRA_TEXT, movieItem.getMovieId());
                     startActivity(intent);
-                }
+                }*/
+                ((Callback) getActivity()).onItemSelected(movieItem);
             }
         });
         return gridView;
